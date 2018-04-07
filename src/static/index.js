@@ -1,4 +1,6 @@
 var pic = document.querySelector('#pic')
+var preView = document.querySelector('#preView')
+var url = document.querySelector('#url')
 
 document.querySelector('#upload').addEventListener('click', function(ev) {
   var formdata = new FormData()
@@ -15,5 +17,8 @@ document.querySelector('#upload').addEventListener('click', function(ev) {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
+  }).then(res => {
+    preView.src = res.data.data.url
+    url.innerHTML = res.data.data.url
   })
 })
