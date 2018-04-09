@@ -1,44 +1,57 @@
 const formdataPaser = require('../util/formdata-parser')
 const ResBody = require('../model/response-body')
-const COS = require('../util/cos-qcloud')
+
+const picService = require('../service/pic')
 
 module.exports = {
   async upload(ctx) {
   
-    // 加载 formdata
     let reqBody
-    let status
-    let msg
-    let data = {}
-
+    let data = []
+    
+    // 加载请求体中的 formdata
     await formdataPaser(ctx).then(formdata => {
       reqBody = formdata
+    }).catch(err => {
+      
     })
 
     let files = reqBody.files
     for (let i = 0; i < files.length; i ++) {
       let file = files[i]
 
-      await COS.uploadPic({
+      await picService.uploadPic({
         fName: file.fName,
         fContent: file.fContent,
         fSize: ctx.get('Content-Length')
       }).then(res => {
-        status = true
-        msg = '上传成功'
-        data.url = res
+        data.push({
+          status: true,
+          msg: '上传成功',
+          url: res
+        })
       }).catch(err => {
-        console.log(err)
-        status = false
-        msg = '上传失败'
-        data = {}
+        console.error(err)
+        // TODO: 分析 err
+
+        data.push({
+        status: false,
+        msg: '上传失败',
+        data: {}
+        })
       })
+
+      // await picService.savePicInfo({
+      //   fName: file.fName,
+      //   fUrl: data.url,
+      //   fSize: ctx.get('Content-Length')
+      // })
     }
 
     ctx.set({
       'Location': '/',
       'Connection': 'close'
-    });
-    ctx.body = new ResBody(status, msg, data)
+    })
+    ctx.body = new ResBody(true, '成功', data)
   }
 }

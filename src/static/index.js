@@ -4,8 +4,10 @@ var url = document.querySelector('#url')
 
 document.querySelector('#upload').addEventListener('click', function(ev) {
   var formdata = new FormData()
-
-  formdata.append('files', pic.files[0],  pic.files[0].name)
+  
+  Array.prototype.forEach.call(pic.files, ((el, index) => {
+    formdata.append('files' + index, el)
+  }))
   formdata.append('msg', 'fuckyou')
 
   // formdata = {haha: 'heihei'}
@@ -18,7 +20,8 @@ document.querySelector('#upload').addEventListener('click', function(ev) {
       'Content-Type': 'multipart/form-data'
     }
   }).then(res => {
-    preView.src = res.data.data.url
-    url.innerHTML = res.data.data.url
+
+    url.innerHTML = res.data.data.map(el => "<li>" + el.url + "</li>").join('')
+    preView.innerHTML = res.data.data.map(el => "<img src=" + el.url + ">").join('')
   })
 })

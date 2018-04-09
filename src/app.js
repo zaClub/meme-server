@@ -26,3 +26,6 @@ app.use(router.routes()).use(router.allowedMethods())
 app.listen(port, _ => {
   console.log(`server run at ${port}`)
 })
+
+// const COS = require('./util/cos-qcloud')
+// COS.getAllPicOfBucket()

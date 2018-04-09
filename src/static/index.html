@@ -5,15 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>MemeHub</title>
+  <style>
+  #preView img{ width:200px; margin-right: 10px;}
+  </style>
 </head>
 <body>
-  <input id="pic" type="file">
+  <input id="pic" type="file" multiple>
   <button id="upload">upload</button>
   <div>
-    <label for="url">生成 url：</label>
-    <span id="url"></span>
+    <label>生成 url：</label>
+    <ul id="url"></ul>
   </div>
-  <img id="preView" src="" alt="预览">
+  
+  <div id="preView"></div>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="index.js"></script>
 </body>
