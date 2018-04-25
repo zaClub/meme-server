@@ -1,4 +1,4 @@
-const Router = requrie('koa-router')
+const Router = require('koa-router')
 
 const test = Router()
 
@@ -9,7 +9,12 @@ test.get('/', async ( ctx )=>{
       <li><a href="/page/404">/page/404</a></li>
     </ul>
   `
-  ctx.body = html
+
+  // ctx.set({
+  //   statusCode: 250
+  // })
+  ctx.response.status = 401
+  ctx.body = {haha: 'heihei'}
 })
 
 module.exports = test

@@ -9,6 +9,7 @@ module.exports = (ctx) => new Promise(resolve => {
 
   // 监听文件
   busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+    console.log(filename)
     // TODO: 判断文件类型
     // if()
 

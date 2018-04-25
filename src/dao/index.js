@@ -1,0 +1,7 @@
+// class Dao {
+//   allFields = []
+
+//   checkFields () {
+    
+//   }
+// }

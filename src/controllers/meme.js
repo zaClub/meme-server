@@ -1,7 +1,7 @@
 const formdataPaser = require('../util/formdata-parser')
 const ResBody = require('../model/response-body')
 
-const picService = require('../service/pic')
+const memeService = require('../service/meme')
 
 module.exports = {
   async upload(ctx) {
@@ -20,13 +20,13 @@ module.exports = {
     for (let i = 0; i < files.length; i ++) {
       let file = files[i]
 
-      await picService.uploadPic({
+      await memeService.uploadPic({
         fName: file.fName,
         fContent: file.fContent,
         fSize: ctx.get('Content-Length')
       }).then(res => {
         data.push({
-          status: true,
+          code: 2000,
           msg: '上传成功',
           url: res
         })
@@ -35,13 +35,13 @@ module.exports = {
         // TODO: 分析 err
 
         data.push({
-        status: false,
+        code: 4000,
         msg: '上传失败',
         data: {}
         })
       })
 
-      // await picService.savePicInfo({
+      // await memeService.savePicInfo({
       //   fName: file.fName,
       //   fUrl: data.url,
       //   fSize: ctx.get('Content-Length')
@@ -52,6 +52,6 @@ module.exports = {
       'Location': '/',
       'Connection': 'close'
     })
-    ctx.body = new ResBody(true, '成功', data)
+    ctx.body = new ResBody(2000, '成功', data)
   }
 }

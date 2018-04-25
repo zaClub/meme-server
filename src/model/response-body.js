@@ -1,6 +1,6 @@
-module.exports = function ResBody(status = true, msg = '', data = {}) {
+module.exports = function ResBody(code, msg = '', data = {}) {
 
-  this.status = status
+  this.code = code
   this.msg = msg
   this.data = data
 }

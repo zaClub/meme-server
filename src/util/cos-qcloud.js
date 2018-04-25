@@ -1,6 +1,6 @@
 const COS = require('cos-nodejs-sdk-v5')
 
-const { AppId, SecretId, SecretKey, Region } = require('../../app.config.js')
+const { AppId, SecretId, SecretKey, Region } = require('../../app.config.js').COS_CONFIG
 
 // 创建 cos 实例
 let cos = new COS({
@@ -20,7 +20,7 @@ module.exports = {
   uploadPic({ fName, fContent, fSize }) {
     var params = {
       ...initialParams,
-      Key: `${Date.now()}_${String.prototype.slice.call(Math.random() * 10000, 0, 4)}_${fName}`,   /* 必须  十三位时间戳 + 四位随机数 + 文件名*/
+      Key: `${Date.now()}_${String.prototype.slice.call(Math.random() * 10000, 0, 4)}`,   /* 必须  十三位时间戳 + 四位随机数 + 文件名*/
       Body: fContent,                          /* 必须 */
       ContentLength: fSize,                    /* 必须 */
       // CacheControl: 'STRING_VALUE',                   /* 非必须 */
@@ -45,6 +45,7 @@ module.exports = {
         if (err) {
           reject(err)
         } else {
+          // resolve(data)
           resolve(data.Location)
         }
       })

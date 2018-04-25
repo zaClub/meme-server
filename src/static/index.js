@@ -13,7 +13,7 @@ document.querySelector('#upload').addEventListener('click', function(ev) {
   // formdata = {haha: 'heihei'}
 
   axios({
-    url: '/pic/upload',
+    url: '/api/meme/upload',
     method: 'POST',
     data: formdata,
     headers: {
@@ -21,7 +21,7 @@ document.querySelector('#upload').addEventListener('click', function(ev) {
     }
   }).then(res => {
 
-    url.innerHTML = res.data.data.map(el => "<li>" + el.url + "</li>").join('')
-    preView.innerHTML = res.data.data.map(el => "<img src=" + el.url + ">").join('')
+    url.innerHTML = res.data.data.map(el => "<li>" + el.url.Location + "</li>").join('')
+    preView.innerHTML = res.data.data.map(el => "<img src=" + el.url.Location + ">").join('')
   })
 })
