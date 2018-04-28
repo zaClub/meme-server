@@ -52,6 +52,11 @@ module.exports = {
       'Location': '/',
       'Connection': 'close'
     })
-    ctx.body = new ResBody(2000, '成功', data)
+
+    ctx.body = new ResBody({
+      code: 2000,
+      msg: '成功',
+      data
+    })
   }
 }

@@ -15,36 +15,40 @@ module.exports = {
     let queryStr = `
       SELECT ${fieldsStr}
       FROM user
-      where wxid = '${openId}'`
+      where wxid = '${openId}'
+    `
 
-      return new Promise((resolve, reject) => {
-        pool.query(queryStr, function (error, results) {
-          if (error) {
-            reject(error)
-            // 这里不返回的话会继续执行下面的代码
-            return
-          }
-  
-          if (results.length) {
-            // 存在该用户
-            resolve({
-              code: CODE.USER_EXIST,
-              data: results[0]
-            })
-          } else {
-            // 不存在该用户
-            reject(CODE.USER_NOT_EXIST)
-          }
-        })
-  
+    return new Promise((resolve, reject) => {
+      pool.query(queryStr, function (error, results) {
+        if (error) {
+          reject(error)
+          // 这里不返回的话会继续执行下面的代码
+          return
+        }
+
+        if (results.length) {
+          // 存在该用户
+          resolve({
+            code: CODE.USER_EXIST,
+            data: results[0]
+          })
+        } else {
+          // 不存在该用户
+          resolve({
+            code: CODE.USER_NOT_EXIST,
+            data: results[0]
+          })
+        }
       })
+
+    })
   },
 
   /**
-   * 
-   * @param {*} openId 
-   * @param {*} spaceUsed 
-   * @param {*} remark 
+   * 插入用户信息
+   * @param {String} openId 必须
+   * @param {Number} spaceUsed 已用空间，可选，默认为 0
+   * @param {String} remark
    */
   insertUser({openId, spaceUsed, remark}) {
     let vals = [openId, spaceUsed, remark]
@@ -60,19 +64,26 @@ module.exports = {
     `
 
     return new Promise((resolve, reject) => {
-      pool.query(queryStr, function (error, results) {
+      pool.query(queryStr, (error, results) => {
         if (error) {
           reject(error)
           // 这里不返回的话会继续执行下面的代码
           return
         }
 
-        if (results.affectedRows === 1) {
+        if (results.affectedRows > 0) {
+          // 创建成功，返回已用空间 0B
           resolve({
-            code: CODE.SUCCESS
+            code: CODE.SUCCESS,
+            data: {
+              spaceUsed: 0
+            }
           })
         } else {
-          reject(CODE.INSERT_FAIL)
+          // 一般来说这里不会发生，因为插入失败的话会在上面 reject
+          resolve({
+            code: CODE.INSERT_FAIL
+          })
         }
       })
 

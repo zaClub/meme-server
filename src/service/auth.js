@@ -9,5 +9,6 @@ module.exports = {
 
   selectUser: authDao.selectUser,
   insertUser: authDao.insertUser,
+  // 弃用
   isExistOrInsert: authDao.isExistOrInsert
 }
