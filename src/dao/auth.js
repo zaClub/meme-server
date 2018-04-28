@@ -40,7 +40,12 @@ module.exports = {
       })
   },
 
-  
+  /**
+   * 
+   * @param {*} openId 
+   * @param {*} spaceUsed 
+   * @param {*} remark 
+   */
   insertUser({openId, spaceUsed, remark}) {
     let vals = [openId, spaceUsed, remark]
       .filter(check)
